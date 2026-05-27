@@ -1,0 +1,21 @@
+import 'expense_category.dart';
+
+class Expense {
+  const Expense({
+    required this.id,
+    required this.title,
+    required this.amount,
+    required this.category,
+    required this.date,
+    this.notes,
+    required this.createdAt,
+  });
+
+  final String id;
+  final String title;
+  final double amount;
+  final ExpenseCategory category;
+  final DateTime date;
+  final String? notes;
+  final DateTime createdAt;
+}
