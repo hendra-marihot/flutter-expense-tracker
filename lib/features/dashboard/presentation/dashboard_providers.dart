@@ -16,6 +16,16 @@ class CurrentMonthNotifier extends Notifier<MonthYear> {
   void setMonth({required int year, required int month}) {
     state = (year: year, month: month);
   }
+
+  void previousMonth() {
+    final previous = DateTime(state.year, state.month - 1);
+    state = (year: previous.year, month: previous.month);
+  }
+
+  void nextMonth() {
+    final next = DateTime(state.year, state.month + 1);
+    state = (year: next.year, month: next.month);
+  }
 }
 
 final currentMonthProvider = NotifierProvider<CurrentMonthNotifier, MonthYear>(

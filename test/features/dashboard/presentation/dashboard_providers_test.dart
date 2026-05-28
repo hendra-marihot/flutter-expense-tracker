@@ -49,6 +49,42 @@ void main() {
       expect(month.year, 2024);
       expect(month.month, 12);
     });
+
+    test('nextMonth advances within the same year', () {
+      final notifier = container.read(currentMonthProvider.notifier)
+        ..setMonth(year: 2025, month: 3);
+
+      notifier.nextMonth();
+
+      expect(container.read(currentMonthProvider), (year: 2025, month: 4));
+    });
+
+    test('nextMonth rolls December over into the next January', () {
+      final notifier = container.read(currentMonthProvider.notifier)
+        ..setMonth(year: 2025, month: 12);
+
+      notifier.nextMonth();
+
+      expect(container.read(currentMonthProvider), (year: 2026, month: 1));
+    });
+
+    test('previousMonth steps back within the same year', () {
+      final notifier = container.read(currentMonthProvider.notifier)
+        ..setMonth(year: 2025, month: 3);
+
+      notifier.previousMonth();
+
+      expect(container.read(currentMonthProvider), (year: 2025, month: 2));
+    });
+
+    test('previousMonth rolls January back into the prior December', () {
+      final notifier = container.read(currentMonthProvider.notifier)
+        ..setMonth(year: 2025, month: 1);
+
+      notifier.previousMonth();
+
+      expect(container.read(currentMonthProvider), (year: 2024, month: 12));
+    });
   });
 
   group('dashboardSummaryProvider', () {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/extensions/currency_extensions.dart';
-import '../../../core/extensions/date_extensions.dart';
 import '../../dashboard/presentation/dashboard_providers.dart';
+import '../../dashboard/presentation/widgets/month_selector.dart';
 import '../../expenses/domain/expense_category.dart';
 import '../../expenses/presentation/expense_providers.dart';
 import '../../settings/presentation/settings_providers.dart';
@@ -20,11 +20,10 @@ class BudgetsScreen extends ConsumerWidget {
     final month = ref.watch(currentMonthProvider);
     final budgetsAsync = ref.watch(currentBudgetsProvider);
     final expensesAsync = ref.watch(monthlyExpensesProvider(month));
-    final monthLabel = DateTime(month.year, month.month).monthYear;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Budgets — $monthLabel'),
+        title: const Text('Budgets'),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -33,55 +32,63 @@ class BudgetsScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: budgetsAsync.when(
-        data: (budgets) {
-          if (budgets.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.account_balance_wallet,
-                    size: 64,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(height: 16),
-                  const Text('No budgets set'),
-                  const SizedBox(height: 16),
-                  FilledButton.icon(
-                    onPressed: () => _showAddBudgetDialog(context, ref),
-                    icon: const Icon(Icons.add),
-                    label: const Text('Add Budget'),
-                  ),
-                ],
-              ),
-            );
-          }
-          return expensesAsync.when(
-            data: (expenses) {
-              final spending = spendingByCategory(expenses);
-              return ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: budgets.length,
-                itemBuilder: (context, index) {
-                  final budget = budgets[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: BudgetProgressBar(
-                      category: budget.category,
-                      spent: spending[budget.category] ?? 0,
-                      limit: budget.limit,
+      body: Column(
+        children: [
+          const MonthSelector(),
+          Expanded(
+            child: budgetsAsync.when(
+              data: (budgets) {
+                if (budgets.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.account_balance_wallet,
+                          size: 64,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                        const SizedBox(height: 16),
+                        const Text('No budgets set'),
+                        const SizedBox(height: 16),
+                        FilledButton.icon(
+                          onPressed: () => _showAddBudgetDialog(context, ref),
+                          icon: const Icon(Icons.add),
+                          label: const Text('Add Budget'),
+                        ),
+                      ],
                     ),
                   );
-                },
-              );
-            },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, _) => Center(child: Text('Error: $error')),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(child: Text('Error: $error')),
+                }
+                return expensesAsync.when(
+                  data: (expenses) {
+                    final spending = spendingByCategory(expenses);
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: budgets.length,
+                      itemBuilder: (context, index) {
+                        final budget = budgets[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: BudgetProgressBar(
+                            category: budget.category,
+                            spent: spending[budget.category] ?? 0,
+                            limit: budget.limit,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (error, _) => Center(child: Text('Error: $error')),
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, _) => Center(child: Text('Error: $error')),
+            ),
+          ),
+        ],
       ),
     );
   }
