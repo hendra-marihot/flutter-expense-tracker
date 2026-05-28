@@ -8,6 +8,7 @@ import '../../expenses/presentation/expense_providers.dart';
 import '../../settings/presentation/settings_providers.dart';
 import '../data/budget_repository.dart';
 import '../domain/budget.dart';
+import '../domain/budget_calculations.dart';
 import 'budget_providers.dart';
 import 'widgets/budget_progress_bar.dart';
 
@@ -58,19 +59,17 @@ class BudgetsScreen extends ConsumerWidget {
           }
           return expensesAsync.when(
             data: (expenses) {
+              final spending = spendingByCategory(expenses);
               return ListView.builder(
                 padding: const EdgeInsets.all(16),
                 itemCount: budgets.length,
                 itemBuilder: (context, index) {
                   final budget = budgets[index];
-                  final spent = expenses
-                      .where((e) => e.category == budget.category)
-                      .fold<double>(0, (sum, e) => sum + e.amount);
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: BudgetProgressBar(
                       category: budget.category,
-                      spent: spent,
+                      spent: spending[budget.category] ?? 0,
                       limit: budget.limit,
                     ),
                   );
@@ -149,9 +148,7 @@ class BudgetsScreen extends ConsumerWidget {
               onPressed: () async {
                 final limit = double.tryParse(limitController.text);
                 if (limit == null || limit <= 0) {
-                  setState(
-                    () => limitError = 'Please enter a valid amount',
-                  );
+                  setState(() => limitError = 'Please enter a valid amount');
                   return;
                 }
 
@@ -163,17 +160,13 @@ class BudgetsScreen extends ConsumerWidget {
                   year: month.year,
                 );
                 try {
-                  await ref
-                      .read(budgetRepositoryProvider)
-                      .setBudget(budget);
+                  await ref.read(budgetRepositoryProvider).setBudget(budget);
                   if (dialogContext.mounted) {
                     Navigator.pop(dialogContext);
                   }
                 } on Exception catch (e) {
                   if (dialogContext.mounted) {
-                    setState(
-                      () => limitError = 'Failed to save: $e',
-                    );
+                    setState(() => limitError = 'Failed to save: $e');
                   }
                 }
               },

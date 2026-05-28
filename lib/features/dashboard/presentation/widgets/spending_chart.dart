@@ -23,8 +23,11 @@ class SpendingChart extends StatelessWidget {
     }
 
     final firstDate = sortedEntries.first.key;
-    final lastDayOfMonth =
-        DateTime(firstDate.year, firstDate.month + 1, 0).day.toDouble();
+    final lastDayOfMonth = DateTime(
+      firstDate.year,
+      firstDate.month + 1,
+      0,
+    ).day.toDouble();
 
     return Card(
       child: Padding(
@@ -34,28 +37,32 @@ class SpendingChart extends StatelessWidget {
           children: [
             Text('Daily Spending', style: theme.textTheme.titleMedium),
             const SizedBox(height: 16),
-            SizedBox(
-              height: 200,
-              child: LineChart(
-                LineChartData(
-                  minX: 1,
-                  maxX: lastDayOfMonth,
-                  gridData: const FlGridData(show: false),
-                  titlesData: const FlTitlesData(show: false),
-                  borderData: FlBorderData(show: false),
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: spots,
-                      isCurved: true,
-                      color: theme.colorScheme.primary,
-                      barWidth: 2,
-                      dotData: const FlDotData(show: false),
-                      belowBarData: BarAreaData(
-                        show: true,
-                        color: theme.colorScheme.primary.withValues(alpha: 0.1),
+            RepaintBoundary(
+              child: SizedBox(
+                height: 200,
+                child: LineChart(
+                  LineChartData(
+                    minX: 1,
+                    maxX: lastDayOfMonth,
+                    gridData: const FlGridData(show: false),
+                    titlesData: const FlTitlesData(show: false),
+                    borderData: FlBorderData(show: false),
+                    lineBarsData: [
+                      LineChartBarData(
+                        spots: spots,
+                        isCurved: true,
+                        color: theme.colorScheme.primary,
+                        barWidth: 2,
+                        dotData: const FlDotData(show: false),
+                        belowBarData: BarAreaData(
+                          show: true,
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.1,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
