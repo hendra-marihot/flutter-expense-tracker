@@ -9,9 +9,7 @@ void main() async {
   final savedSettings = await SettingsRepository().load();
   runApp(
     ProviderScope(
-      overrides: [
-        initialSettingsProvider.overrideWithValue(savedSettings),
-      ],
+      overrides: [initialSettingsProvider.overrideWithValue(savedSettings)],
       child: const ExpenseTrackerApp(),
     ),
   );

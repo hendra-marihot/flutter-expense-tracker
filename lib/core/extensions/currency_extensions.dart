@@ -12,8 +12,10 @@ extension CurrencyX on double {
   String formattedAs(String currencyCode) {
     final symbol = _symbols[currencyCode] ?? currencyCode;
     final decimals = currencyCode == 'JPY' ? 0 : 2;
-    return NumberFormat.currency(symbol: symbol, decimalDigits: decimals)
-        .format(this);
+    return NumberFormat.currency(
+      symbol: symbol,
+      decimalDigits: decimals,
+    ).format(this);
   }
 
   String compactFormattedAs(String currencyCode) {

@@ -65,17 +65,16 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       if (mounted) context.pop();
     } on Exception catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save expense: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to save expense: $e')));
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final currencySymbol =
-        CurrencyX.symbolFor(ref.watch(currencyProvider));
+    final currencySymbol = CurrencyX.symbolFor(ref.watch(currencyProvider));
 
     return Scaffold(
       appBar: AppBar(
