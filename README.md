@@ -105,10 +105,21 @@ flutter run
 
 Requires Flutter 3.8+ with Dart 3.8+. Tests: `flutter test`.
 
-## License
+## Related repositories
 
-<!-- TODO: Add a LICENSE file to the repo root (Apache 2.0). Run:
-     curl -o LICENSE https://www.apache.org/licenses/LICENSE-2.0.txt
-     Then update the copyright line at the top of the file. -->
+This is one piece of a portfolio covering different aspects of senior mobile engineering:
+
+| Repository | Focus area |
+|---|---|
+| [compose-newsreader](https://github.com/hendra-marihot/compose-newsreader) | Multi-module Android, Hilt, Room, offline-first |
+| [android-design-system](https://github.com/hendra-marihot/android-design-system) | Compose component library, design tokens |
+| [compose-performance-lab](https://github.com/hendra-marihot/compose-performance-lab) | Compose performance anti-patterns and fixes |
+| [kmp-currency-converter](https://github.com/hendra-marihot/kmp-currency-converter) | Kotlin Multiplatform, shared business logic |
+| **flutter-expense-tracker** (this repo) | Clean Architecture, Riverpod, Drift, Material 3 |
+| [flutter-ui-toolkit](https://github.com/hendra-marihot/flutter-ui-toolkit) | Reusable widgets, shimmer, adaptive layouts |
+| [flutter-platform-bridge](https://github.com/hendra-marihot/flutter-platform-bridge) | Platform channels, native interop |
+| [mobile-ci-cd-templates](https://github.com/hendra-marihot/mobile-ci-cd-templates) | CI/CD, release automation, infrastructure |
+
+## License
 
 Copyright 2026 Hendra Marihot. Licensed under the Apache License 2.0 — see [LICENSE](LICENSE) for details.
