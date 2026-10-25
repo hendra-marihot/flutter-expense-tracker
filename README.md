@@ -1,14 +1,11 @@
 # Expense Tracker
 
+[![CI](https://github.com/hendra-marihot/flutter-expense-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/hendra-marihot/flutter-expense-tracker/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
 A Flutter expense tracker built to demonstrate architectural patterns I reach for in production: feature-first Clean Architecture, reactive state management with Riverpod, and a type-safe local database layer with Drift. It's a deliberately scoped project — the goal isn't a feature-complete app, it's a clear example of how I structure Flutter code, manage data flow, and make tradeoffs.
 
-<!-- TODO: Add a screenshot or GIF here.
-     Capture a ~15-second screen recording showing:
-     1. Adding an expense (form → category chip → date picker → save)
-     2. Dashboard updating (total, chart, category breakdown)
-     3. Budget progress bar crossing the over-budget threshold
-     4. Dark mode toggle in settings
-     Use an iPhone 15 Pro simulator or Pixel 8 emulator. A GIF works better than static screenshots. -->
+![Adding two expenses, then the dashboard total and the expense list updating](docs/demo.gif)
 
 ## Why these technologies
 
